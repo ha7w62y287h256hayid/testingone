@@ -1,0 +1,122 @@
+name: Scheduled Jobs Account Two Desktop
+
+on:
+  schedule:
+    - cron: '30 0 * * 1'  # Job1: Every Monday at 6:00 AM IST (12:30 AM UTC)
+    - cron: '30 6 * * 2'  # Job2: Every Tuesday at 12:00 PM IST (6:30 AM UTC)
+    - cron: '0 12 * * 3'  # Job3: Every Wednesday at 6:00 PM IST (12:30 PM UTC)
+    - cron: '30 18 * * 4'  # Job4: Every Thursday at 12:00 AM IST (6:30 PM UTC previous day)
+    - cron: '30 0 * * 5'  # Job5: Every Friday at 6:00 AM IST (12:30 AM UTC)
+    - cron: '30 6 * * 6'  # Job6: Every Saturday at 12:00 PM IST (6:30 AM UTC)
+    - cron: '30 0 * * 7'  # Job7: Every Sunday at 6:00 AM IST (12:30 AM UTC)
+  workflow_dispatch:  # Enables manual trigger
+
+concurrency:
+  group: scheduled-jobs
+  cancel-in-progress: true
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      actions: write
+    if: github.event.schedule == '30 0 * * 1'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_IMAGE_JOB1 }}
+      - name: Run Docker container
+        run: docker run -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_IMAGE_JOB1 }}
+
+  job2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      actions: write
+    if: github.event.schedule == '30 6 * * 2'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_IMAGE_JOB2 }}
+      - name: Run Docker container
+        run: docker run -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_IMAGE_JOB2 }}
+
+  job3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      actions: write
+    if: github.event.schedule == '0 12 * * 3'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_IMAGE_JOB3 }}
+      - name: Run Docker container
+        run: docker run -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_IMAGE_JOB3 }}
+
+  job4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      actions: write
+    if: github.event.schedule == '30 18 * * 4'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_IMAGE_JOB4 }}
+      - name: Run Docker container
+        run: docker run -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_IMAGE_JOB4 }}
+
+  job5:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      actions: write
+    if: github.event.schedule == '30 0 * * 5'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_IMAGE_JOB5 }}
+      - name: Run Docker container
+        run: docker run -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_IMAGE_JOB5 }}
+
+  job6:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      actions: write
+    if: github.event.schedule == '30 6 * * 6'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_IMAGE_JOB6 }}
+      - name: Run Docker container
+        run: docker run -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_IMAGE_JOB6 }}
+
+  job7:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    permissions:
+      contents: read
+      actions: write
+    if: github.event.schedule == '30 0 * * 7'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.DOCKER_IMAGE_JOB7 }}
+      - name: Run Docker container
+        run: docker run -v ${{ github.workspace }}:/app ${{ secrets.DOCKER_IMAGE_JOB7 }}
